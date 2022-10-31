@@ -37,14 +37,12 @@ export function App() {
         ]
     });
 
+    // Функции изменения тасок
     const addTask = (todolistId: string, title: string) => {
         setTasks({...tasks, [todolistId]: [...tasks[todolistId], {id: v1(), title, isDone: false}]})
     };
     const removeTask = (todolistId: string, taskId: string) => {
         setTasks({...tasks, [todolistId]: tasks[todolistId].filter(t => t.id !== taskId)});
-    };
-    const changeFilter = (todolistId: string, filter: FilterValuesType) => {
-        setTodolists(todolists.map(td => td.id === todolistId ? {...td, filter}: td));
     };
     const changeTaskStatus = (todolistId: string, taskId: string, isDone: boolean) =>  {
         setTasks({...tasks, [todolistId]: tasks[todolistId].map(t => t.id === taskId ? {...t, isDone} : t)});
@@ -52,6 +50,8 @@ export function App() {
     const changeTaskTitle = (todolistId: string, taskId: string, newTitle: string) => {
         setTasks({...tasks, [todolistId]: tasks[todolistId].map(t => t.id === taskId ? {...t, title: newTitle} : t)});
     };
+
+    // Функции изменения тудулистов
     const addTodolist = (title: string) => {
         const newTodolistId = v1();
         setTodolists([{id: newTodolistId, title: title, filter: 'all'}, ...todolists]);
@@ -63,14 +63,17 @@ export function App() {
         delete newTasks[todolistId];
         setTasks(newTasks);
     };
+    const changeFilter = (todolistId: string, filter: FilterValuesType) => {
+        setTodolists(todolists.map(td => td.id === todolistId ? {...td, filter}: td));
+    };
     const changeTodolistTitle = (todolistId: string, title: string) => {
         setTodolists(todolists.map(td => td.id === todolistId ? {...td, title}: td));
     };
+
     const getFilteredTasks = (tasks: TaskType[], filter: FilterValuesType): TaskType[] => {
         if (filter === "active") {
             return tasks.filter(t => !t.isDone);
-        }
-        if (filter === "completed") {
+        } else if (filter === "completed") {
             return tasks.filter(t => t.isDone);
         }
         return tasks;
