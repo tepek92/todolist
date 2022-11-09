@@ -28,14 +28,13 @@ test('correct todolist should be added', () => {
     const todolistId2 = v1();
 
     const newTodolistTitle = 'New Todolist';
-    const newTodolistId = v1();
 
     const startState: Array<TodolistType> = [
         {id: todolistId1, title: 'What to learn', filter: 'all'},
         {id: todolistId2, title: 'What to buy', filter: 'all'}
     ];
 
-    const endState = todolistsReducer(startState, AddTodolistAC(newTodolistId, newTodolistTitle));
+    const endState = todolistsReducer(startState, AddTodolistAC(newTodolistTitle));
 
     expect(endState.length).toBe(3);
     expect(endState[2].title).toBe(newTodolistTitle);

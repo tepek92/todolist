@@ -1,4 +1,3 @@
-import {v1} from "uuid";
 import {TasksStateType} from "../App";
 import {AddTodolistAC, RemoveTodolistAC} from "./todolists-reducer";
 
@@ -30,12 +29,11 @@ export const tasksReducer = (state: TasksStateType, action: AllActionType): Task
                     state[action.todolistId].map(t => t.id === action.taskId ? {...t, title: action.newTaskTitle} : t)
             }
         case 'REMOVE-TODOLIST':
-            const newState = {...state};
-            delete newState[action.todolistId];
-            return newState;
+            const copyState = {...state};
+            delete copyState[action.todolistId];
+            return copyState;
         case 'ADD-TODOLIST':
             return {...state, [action.todolistId]: []}
-
         default:
             throw new Error('I don\'t understand this type')
     }
@@ -52,3 +50,4 @@ export const ChangeTaskStatusAC = (todolistId: string, taskId: string, isDone: b
 
 export const ChangeTaskTitleAC = (todolistId: string, taskId: string, newTaskTitle: string) =>
     ({type: 'CHANGE-TASK-TITLE', todolistId, taskId, newTaskTitle} as const);
+
