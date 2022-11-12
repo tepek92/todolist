@@ -31,7 +31,7 @@ test('property with todolistId should be deleted', () => {
             {id: '2', title: 'milk', isDone: true},
             {id: '3', title: 'tea', isDone: false}
         ]
-    }
+    };
 
     const action = RemoveTodolistAC('todolistId2');
 
