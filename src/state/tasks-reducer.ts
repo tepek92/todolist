@@ -10,7 +10,8 @@ export type AllActionType =
     | ReturnType<typeof RemoveTodolistAC>
     | ReturnType<typeof AddTodolistAC>;
 
-export const tasksReducer = (state: TasksStateType, action: AllActionType): TasksStateType => {
+const initialState: TasksStateType = {};
+export const tasksReducer = (state: TasksStateType = initialState, action: AllActionType): TasksStateType => {
     switch (action.type) {
         case 'REMOVE-TASK':
             return {...state, [action.todolistId]: state[action.todolistId].filter(t => t.id !== action.taskId)};
@@ -36,7 +37,7 @@ export const tasksReducer = (state: TasksStateType, action: AllActionType): Task
         case 'ADD-TODOLIST':
             return {...state, [action.todolistId]: []}
         default:
-            throw new Error('I don\'t understand this type')
+            return state;
     }
 };
 
