@@ -1,12 +1,12 @@
 import React, {ChangeEvent} from 'react';
 import {FilterValuesType} from './App';
-import {AddItemForm} from './AddItemForm';
-import {EditableSpan} from './EditableSpan';
+import {AddItemForm} from '../components/AddItemForm';
+import {EditableSpan} from '../components/EditableSpan';
 import {Button, Checkbox, IconButton} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 export type TaskType = {
-    id: string
+    taskId: string
     title: string
     isDone: boolean
 }
@@ -49,16 +49,16 @@ export function Todolist(props: PropsType) {
     const onCompletedClickHandler = () => changeFilter(todolistId, "completed");
 
     const taskElements = tasks.map(t => {
-        const onClickHandler = () => removeTask(todolistId, t.id);
+        const onClickHandler = () => removeTask(todolistId, t.taskId);
         const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-            changeTaskStatus(todolistId, t.id, e.currentTarget.checked);
+            changeTaskStatus(todolistId, t.taskId, e.currentTarget.checked);
         };
         const onTitleChangeHandler = (newValue: string) => {
-            changeTaskTitle(todolistId, t.id, newValue);
+            changeTaskTitle(todolistId, t.taskId, newValue);
         }
 
         return (
-            <div key={t.id} className={t.isDone ? "is-done" : ""}>
+            <div key={t.taskId} className={t.isDone ? "is-done" : ""}>
                 <Checkbox onChange={onChangeHandler} checked={t.isDone}/>
                 <EditableSpan value={t.title} onChange={onTitleChangeHandler}/>
                 <IconButton aria-label="delete" onClick={onClickHandler} size="small">

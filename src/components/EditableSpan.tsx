@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useState} from 'react';
+import React, {ChangeEvent, memo, useState} from 'react';
 import {TextField} from "@mui/material";
 
 type EditableSpanPropsType = {
@@ -6,7 +6,8 @@ type EditableSpanPropsType = {
     onChange: (newValue: string) => void
 }
 
-export function EditableSpan(props: EditableSpanPropsType) {
+export const EditableSpan = memo((props: EditableSpanPropsType) => {
+    console.log('EditableSpan called')
     const {value, onChange} = props;
 
     let [editMode, setEditMode] = useState(false);
@@ -43,4 +44,4 @@ export function EditableSpan(props: EditableSpanPropsType) {
             helperText={error}
         />
         : <span onDoubleClick={activateEditMode}>{value}</span>
-}
+})

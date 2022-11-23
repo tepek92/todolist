@@ -1,19 +1,13 @@
-import React from 'react';
-import './App.css';
-import {TaskType, Todolist} from './Todolist';
-import {AddItemForm} from './AddItemForm';
-import {Header} from "./Header";
+import React, {useCallback} from 'react';
+import {AddItemForm} from './components';
+import {Header} from "./components";
 import {Container, Grid, Paper} from "@mui/material";
-import {
-    AddTodolistAC,
-    ChangeTodolistFilterAC,
-    ChangeTodolistTitleAC,
-    RemoveTodolistAC,
-} from "./state/todolists-reducer";
-import {AddTaskAC, ChangeTaskStatusAC, ChangeTaskTitleAC, RemoveTaskAC} from "./state/tasks-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./state/store";
-import {TodolistWithRedux} from "./TodolistWithRedux";
+import {TodolistWithRedux} from "./components";
+import {todolistsSelector} from "./state/selectors";
+import {TaskType} from "./components/TodolistWithRedux";
+import {AddTodolistAC} from "./state/actions";
 
 export type FilterValuesType = "all" | "active" | "completed";
 export type TodolistType = {
@@ -27,13 +21,13 @@ export type TasksStateType = {
 
 
 export function AppWithRedux() {
-    const todolists = useSelector<AppRootStateType, TodolistType[]>(state => state.todolists);
+    console.log("App is called");
+    const todolists = useSelector<AppRootStateType, TodolistType[]>(todolistsSelector);
     const dispatch = useDispatch();
 
     // Функции изменения тудулистов
-    const addTodolist = (title: string) => {
-        dispatch(AddTodolistAC(title));
-    };
+    const addTodolist = useCallback((title: string) =>
+        dispatch(AddTodolistAC(title)), [dispatch]);
 
     const todolistElements = todolists.map(td => {
         return <Grid item key={td.id}>

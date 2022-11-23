@@ -1,13 +1,13 @@
 import { v1 } from 'uuid'
-import {TasksStateType} from "../App";
 import {
     AddTaskAC,
     ChangeTaskStatusAC,
     ChangeTaskTitleAC,
     RemoveTaskAC,
-    tasksReducer
-} from "./tasks-reducer";
-import {AddTodolistAC} from "./todolists-reducer";
+    AddTodolistAC
+} from "../state/actions";
+import {TasksStateType} from "../AppWithRedux";
+import {tasksReducer} from "../state/reducers";
 
 let todolistId1: string;
 let todolistId2: string;
@@ -28,14 +28,14 @@ beforeEach(() => {
 
     startState = {
         [todolistId1]: [
-            {id: taskId1, title: 'CSS', isDone: false},
-            {id: taskId2, title: 'JS', isDone: true},
-            {id: taskId3, title: 'React', isDone: false}
+            {taskId: taskId1, title: 'CSS', isDone: false},
+            {taskId: taskId2, title: 'JS', isDone: true},
+            {taskId: taskId3, title: 'React', isDone: false}
         ],
         [todolistId2]: [
-            {id: taskId1, title: 'bread', isDone: false},
-            {id: taskId2, title: 'milk', isDone: true},
-            {id: taskId3, title: 'tea', isDone: false}
+            {taskId: taskId1, title: 'bread', isDone: false},
+            {taskId: taskId2, title: 'milk', isDone: true},
+            {taskId: taskId3, title: 'tea', isDone: false}
         ]
     };
 })
@@ -48,13 +48,13 @@ test('correct task should be deleted from correct array', () => {
 
     expect(endState).toEqual({
         [todolistId1]: [
-            {id: taskId1, title: 'CSS', isDone: false},
-            {id: taskId2, title: 'JS', isDone: true},
-            {id: taskId3, title: 'React', isDone: false}
+            {taskId: taskId1, title: 'CSS', isDone: false},
+            {taskId: taskId2, title: 'JS', isDone: true},
+            {taskId: taskId3, title: 'React', isDone: false}
         ],
         [todolistId2]: [
-            {id: taskId1, title: 'bread', isDone: false},
-            {id: taskId2, title: 'milk', isDone: true},
+            {taskId: taskId1, title: 'bread', isDone: false},
+            {taskId: taskId2, title: 'milk', isDone: true},
         ]
     });
 });
@@ -66,7 +66,7 @@ test('correct task should be added to correct array', () => {
 
     expect(endState[todolistId1].length).toBe(3);
     expect(endState[todolistId2].length).toBe(4);
-    expect(endState[todolistId2][0].id).toBeDefined();
+    expect(endState[todolistId2][0].taskId).toBeDefined();
     expect(endState[todolistId2][0].title).toBe('juce');
     expect(endState[todolistId2][0].isDone).toBe(false);
 });
@@ -78,7 +78,7 @@ test('status of specified task should be changed', () => {
 
     expect(endState[todolistId1].length).toBe(3);
     expect(endState[todolistId2].length).toBe(3);
-    expect(endState[todolistId2][1].id).toBeDefined();
+    expect(endState[todolistId2][1].taskId).toBeDefined();
     expect(endState[todolistId2][1].title).toBe('milk');
     expect(startState[todolistId1][1].isDone).toBe(true);
     expect(endState[todolistId2][1].isDone).toBe(false);

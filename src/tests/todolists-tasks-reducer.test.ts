@@ -1,6 +1,6 @@
-import {TasksStateType, TodolistType} from "../App";
-import {AddTodolistAC, RemoveTodolistAC, todolistsReducer} from "./todolists-reducer";
-import {tasksReducer} from "./tasks-reducer";
+import {AddTodolistAC, RemoveTodolistAC} from "../state/actions";
+import {tasksReducer, todolistsReducer} from "../state/reducers";
+import {TasksStateType, TodolistType} from "../AppWithRedux";
 
 test('ids should be equals', () => {
     const startTasksState: TasksStateType = {}
@@ -22,14 +22,14 @@ test('ids should be equals', () => {
 test('property with todolistId should be deleted', () => {
     const startState: TasksStateType = {
         'todolistId1': [
-            {id: '1', title: 'CSS', isDone: false},
-            {id: '2', title: 'JS', isDone: true},
-            {id: '3', title: 'React', isDone: false}
+            {taskId: '1', title: 'CSS', isDone: false},
+            {taskId: '2', title: 'JS', isDone: true},
+            {taskId: '3', title: 'React', isDone: false}
         ],
         'todolistId2': [
-            {id: '1', title: 'bread', isDone: false},
-            {id: '2', title: 'milk', isDone: true},
-            {id: '3', title: 'tea', isDone: false}
+            {taskId: '1', title: 'bread', isDone: false},
+            {taskId: '2', title: 'milk', isDone: true},
+            {taskId: '3', title: 'tea', isDone: false}
         ]
     };
 
