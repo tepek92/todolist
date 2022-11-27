@@ -8,7 +8,7 @@
 
 # testing
 /coverage
-
+*/__image_snapshots__/
 # production
 /build
 

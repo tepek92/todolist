@@ -5,8 +5,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../state/store";
 import {ChangeTodolistFilterAC, ChangeTodolistTitleAC, RemoveTodolistAC, AddTaskAC} from "../state/actions";
-import {FilterValuesType, TasksStateType, TodolistType} from "../AppWithRedux";
-import {tasksSelector} from "../state/selectors";
+import {FilterValuesType, TodolistType} from "../AppWithRedux";
 import {AddItemForm, Task} from "./";
 
 export type TaskType = {
@@ -19,12 +18,15 @@ type PropsType = {
     todolists: TodolistType;
 }
 
-export const TodolistWithRedux
-    = memo((props: PropsType) => {
-        console.log("Todolist called", props.todolists.title)
+export const TodolistWithRedux =  memo((props: PropsType) => {
+        // console.log("Todolist called", props.todolists.title)
         const {id, title, filter} = props.todolists;
 
+        // при добавлениее нового тудулиста будут отрисоываваться все
+        // так как тут мы зависим от объекта тасок(всех),а он меняется т.к. добавлись новый массив(пустой)
         // const tasks = useSelector<AppRootStateType, TasksStateType>(tasksSelector)[id];
+
+        // а тут мы зависим от конкретного массива тасок, кокретного тудулиста
         const tasks = useSelector<AppRootStateType, TaskType[]>(state => state.tasks[id]);
         const dispatch = useDispatch();
 
@@ -45,6 +47,7 @@ export const TodolistWithRedux
             }
             return tasks;
         };
+
 
         const taskElements = getFilteredTasks(tasks, filter).map(t => {
             return <Task
@@ -67,20 +70,55 @@ export const TodolistWithRedux
                 <div>{taskElements}</div>
 
                 <div>
-                    <Button style={{margin: '10px'}} size={"small"}
-                            variant={filter === 'all' ? "contained" : "outlined"}
-                            onClick={onAllClickHandler}>All
-                    </Button>
-                    <Button style={{margin: '5px'}} size={"small"} color="secondary"
-                            variant={filter === 'active' ? "contained" : "outlined"}
-                            onClick={onActiveClickHandler}>Active
-                    </Button>
-                    <Button style={{margin: '5px'}} size={"small"} color="success"
-                            variant={filter === 'completed' ? "contained" : "outlined"}
-                            onClick={onCompletedClickHandler}>Completed
-                    </Button>
+                    {/*<Button style={{margin: '10px'}} size={"small"}*/}
+                    {/*        variant={filter === 'all' ? "contained" : "outlined"}*/}
+                    {/*        onClick={onAllClickHandler}>All*/}
+                    {/*</Button>*/}
+                    {/*<Button style={{margin: '5px'}} size={"small"} color="secondary"*/}
+                    {/*        variant={filter === 'active' ? "contained" : "outlined"}*/}
+                    {/*        onClick={onActiveClickHandler}>Active*/}
+                    {/*</Button>*/}
+                    {/*<Button style={{margin: '5px'}} size={"small"} color="success"*/}
+                    {/*        variant={filter === 'completed' ? "contained" : "outlined"}*/}
+                    {/*        onClick={onCompletedClickHandler}>Completed*/}
+                    {/*</Button>*/}
+
+                    <ButtonWithMemo
+                        color="primary"
+                        variant={filter === 'all' ? "contained" : "outlined"}
+                        onClickHandler={onAllClickHandler}
+                        title={"All"}
+                    />
+
+                    <ButtonWithMemo
+                        color="secondary"
+                        variant={filter === 'active' ? "contained" : "outlined"}
+                        onClickHandler={onActiveClickHandler}
+                        title={"Active"}
+                    />
+                    <ButtonWithMemo
+                        color="success"
+                        variant={filter === 'completed' ? "contained" : "outlined"}
+                        onClickHandler={onCompletedClickHandler}
+                        title={"Completed"}
+                    />
                 </div>
             </div>
         )
-    }
-);
+    });
+
+type ButtonWithMemoType = {
+    color: 'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning'
+    variant: 'text' | 'outlined' | 'contained'
+    onClickHandler: () => void
+    title: string
+}
+
+const ButtonWithMemo = memo((props: ButtonWithMemoType) => {
+    return (
+        <Button style={{margin: '5px'}} size={"small"} color={props.color}
+                variant={props.variant}
+                onClick={props.onClickHandler}>{props.title}
+        </Button>
+    )
+});
