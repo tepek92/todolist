@@ -1,15 +1,9 @@
 import React, {ChangeEvent} from 'react';
-import {FilterValuesType} from './App';
-import {AddItemForm} from '../components/AddItemForm';
-import {EditableSpan} from '../components/EditableSpan';
+import {AddItemForm, EditableSpan} from '../components';
 import {Button, Checkbox, IconButton} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-
-export type TaskType = {
-    taskId: string
-    title: string
-    isDone: boolean
-}
+import {TaskStatuses, TaskType} from "../api/todolist-api";
+import {FilterValuesType} from "../state/reducers/todolistsReducer";
 
 type PropsType = {
     todolistId: string
@@ -49,17 +43,17 @@ export function Todolist(props: PropsType) {
     const onCompletedClickHandler = () => changeFilter(todolistId, "completed");
 
     const taskElements = tasks.map(t => {
-        const onClickHandler = () => removeTask(todolistId, t.taskId);
+        const onClickHandler = () => removeTask(todolistId, t.id);
         const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-            changeTaskStatus(todolistId, t.taskId, e.currentTarget.checked);
+            changeTaskStatus(todolistId, t.id, e.currentTarget.checked);
         };
         const onTitleChangeHandler = (newValue: string) => {
-            changeTaskTitle(todolistId, t.taskId, newValue);
+            changeTaskTitle(todolistId, t.id, newValue);
         }
 
         return (
-            <div key={t.taskId} className={t.isDone ? "is-done" : ""}>
-                <Checkbox onChange={onChangeHandler} checked={t.isDone}/>
+            <div key={t.id}>
+                <Checkbox onChange={onChangeHandler} checked={t.status === TaskStatuses.Completed}/>
                 <EditableSpan value={t.title} onChange={onTitleChangeHandler}/>
                 <IconButton aria-label="delete" onClick={onClickHandler} size="small">
                     <DeleteIcon fontSize="inherit"/>

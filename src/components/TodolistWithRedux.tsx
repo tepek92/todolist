@@ -5,17 +5,13 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../state/store";
 import {ChangeTodolistFilterAC, ChangeTodolistTitleAC, RemoveTodolistAC, AddTaskAC} from "../state/actions";
-import {FilterValuesType, TodolistType} from "../AppWithRedux";
 import {AddItemForm, Task} from "./";
+import {FilterValuesType, TodolistBllType} from "../state/reducers/todolistsReducer";
+import {TaskStatuses, TaskType} from "../api/todolist-api";
 
-export type TaskType = {
-    taskId: string
-    title: string
-    isDone: boolean
-}
 
 type PropsType = {
-    todolists: TodolistType;
+    todolists: TodolistBllType;
 }
 
 export const TodolistWithRedux =  memo((props: PropsType) => {
@@ -41,9 +37,9 @@ export const TodolistWithRedux =  memo((props: PropsType) => {
 
         const getFilteredTasks = (tasks: TaskType[], filter: FilterValuesType): TaskType[] => {
             if (filter === "active") {
-                return tasks.filter(t => !t.isDone);
+                return tasks.filter(t => t.status === TaskStatuses.New);
             } else if (filter === "completed") {
-                return tasks.filter(t => t.isDone);
+                return tasks.filter(t => t.status === TaskStatuses.Completed);
             }
             return tasks;
         };
@@ -51,7 +47,7 @@ export const TodolistWithRedux =  memo((props: PropsType) => {
 
         const taskElements = getFilteredTasks(tasks, filter).map(t => {
             return <Task
-                key={t.taskId}
+                key={t.id}
                 todolistId={id}
                 tasks={t}
             />

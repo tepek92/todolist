@@ -1,5 +1,5 @@
 import {v1} from "uuid";
-import {FilterValuesType} from "../../AppWithRedux";
+import {FilterValuesType} from "../reducers/todolistsReducer";
 
 export const RemoveTodolistAC = (todolistId: string) =>
     ({type: 'REMOVE-TODOLIST', todolistId} as const);

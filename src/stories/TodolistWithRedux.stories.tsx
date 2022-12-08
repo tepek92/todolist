@@ -5,7 +5,7 @@ import {TodolistWithRedux} from '../components';
 import {ReduxStoreProviderDecorator} from "./decorators/ReduxStoreProviderDecorator";
 import {AppRootStateType} from "../state/store";
 import {useSelector} from "react-redux";
-import {TodolistType} from "../AppWithRedux";
+import {TodolistBllType} from "../state/reducers/todolistsReducer";
 
 
 export default {
@@ -18,7 +18,7 @@ export default {
 // если в компоненте есть связь со стором (тут useDispatch), то делаем компоненту обертку.
 // она сама дисптачит изменния в стор
 const TodolistContainer = () => {
-    const todolists = useSelector<AppRootStateType, TodolistType>(state => state.todolists[0]);
+    const todolists = useSelector<AppRootStateType, TodolistBllType>(state => state.todolists[0]);
     return <TodolistWithRedux todolists={todolists}/>;
 }
 

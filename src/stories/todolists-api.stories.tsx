@@ -187,11 +187,10 @@ export const UpdateTask = () => {
         const newTask: UpdateTaskType = {
             title: title,
             description: 'opisanie',
-            completed: true,
             status: 1,
             priority: 2,
-            startDate: new Date(),
-            deadline: new Date(),
+            startDate: '',
+            deadline: '',
         }
 
         taskAPI.updateTask(todolistId, taskId, newTask)

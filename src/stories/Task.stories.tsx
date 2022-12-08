@@ -4,8 +4,8 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 import {Task} from '../components';
 import {ReduxStoreProviderDecorator} from "./decorators/ReduxStoreProviderDecorator";
 import {AppRootStateType} from "../state/store";
-import {TaskType} from "../components/TodolistWithRedux";
 import {useSelector} from "react-redux";
+import {TaskType} from "../api/todolist-api";
 
 
 export default {
