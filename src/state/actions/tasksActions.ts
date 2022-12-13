@@ -1,13 +1,16 @@
-import {v1} from "uuid";
+import {TaskType} from "../../api/task-api";
 
 export const RemoveTaskAC = (todolistId: string, taskId: string) =>
     ({type: 'REMOVE-TASK', todolistId, taskId} as const);
 
-export const AddTaskAC = (todolistId: string, newTaskTitle: string) =>
-    ({type: 'ADD-TASK', todolistId, taskId: v1(), newTaskTitle} as const);
+export const AddTaskAC = (task: TaskType) =>
+    ({type: 'ADD-TASK', task} as const);
 
-export const ChangeTaskStatusAC = (todolistId: string, taskId: string, isDone: boolean) =>
-    ({type: 'CHANGE-TASK-STATUS', todolistId, taskId, isDone} as const);
+export const ChangeTaskStatusAC = (todolistId: string, taskId: string, status: number) =>
+    ({type: 'CHANGE-TASK-STATUS', todolistId, taskId, status} as const);
 
 export const ChangeTaskTitleAC = (todolistId: string, taskId: string, newTaskTitle: string) =>
     ({type: 'CHANGE-TASK-TITLE', todolistId, taskId, newTaskTitle} as const);
+
+export const SetTasksAC = (todolistID: string, tasks: TaskType[]) =>
+    ({type: 'SET-TASKS', todolistID, tasks} as const)

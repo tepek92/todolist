@@ -5,7 +5,7 @@ import {Task} from '../components';
 import {ReduxStoreProviderDecorator} from "./decorators/ReduxStoreProviderDecorator";
 import {AppRootStateType} from "../state/store";
 import {useSelector} from "react-redux";
-import {TaskType} from "../api/todolist-api";
+import {TaskType} from "../api/task-api";
 
 
 export default {
