@@ -1,4 +1,11 @@
-import {AddTaskAC, ChangeTaskStatusAC, ChangeTaskTitleAC, RemoveTaskAC, SetTasksAC} from "../actions";
+import {
+    AddTaskAC,
+    ChangeTaskStatusAC,
+    ChangeTaskTitleAC,
+    RemoveTaskAC,
+    SetTasksAC,
+    UpdateTaskAC
+} from "../actions";
 import {AppDispatch, AppRootStateType, AppThunk} from "../store";
 import {taskAPI, UpdateTaskType} from "../../api/task-api";
 
@@ -28,31 +35,64 @@ export const addTaskTC = (todolistID: string, title: string): AppThunk => (dispa
         })
 };
 
-export const updateTaskStatusTC = (todolistId: string, taskId: string, status: number): AppThunk =>
-    (dispatch: AppDispatch, getState: () => AppRootStateType) => {
-    const tasks = getState().tasks[todolistId];
-    const task = tasks.find(t => t.id === taskId);
+export type UpdateTaskModelType = {
+    description?: string
+    title?: string
+    status?: number
+    priority?: number
+    startDate?: string
+    deadline?: string
+}
 
-    if (task) {
-        const updateTask: UpdateTaskType = {
-            description: task.description,
-            title: task.title,
-            status: status,
-            priority: task.priority,
-            startDate: task.startDate,
-            deadline: task.deadline
-        }
+// export const updateTaskStatusTC = (todolistId: string, taskId: string, status: number): AppThunk =>
+//     (dispatch: AppDispatch, getState: () => AppRootStateType) => {
+//     const tasks = getState().tasks[todolistId];
+//     const task = tasks.find(t => t.id === taskId);
+//
+//     if (task) {
+//         const updateTask: UpdateTaskType = {
+//             description: task.description,
+//             title: task.title,
+//             status: status,
+//             priority: task.priority,
+//             startDate: task.startDate,
+//             deadline: task.deadline
+//         }
+//
+//         taskAPI.updateTask(todolistId, taskId, updateTask)
+//             .then(res => {
+//                 if (res.data.resultCode === 0) {
+//                     dispatch(ChangeTaskStatusAC(todolistId, taskId, status))
+//                 }
+//             })
+//     }
+// };
+//
+// export const updateTaskTitleTC = (todolistId: string, taskId: string, title: string): AppThunk =>
+//     (dispatch: AppDispatch, getState: () => AppRootStateType) => {
+//         const tasks = getState().tasks[todolistId];
+//         const task = tasks.find(t => t.id === taskId);
+//
+//         if (task) {
+//             const updateTask: UpdateTaskType = {
+//                 description: task.description,
+//                 title: title,
+//                 status: task.status,
+//                 priority: task.priority,
+//                 startDate: task.startDate,
+//                 deadline: task.deadline
+//             }
+//
+//             taskAPI.updateTask(todolistId, taskId, updateTask)
+//                 .then(res => {
+//                     if (res.data.resultCode === 0) {
+//                         dispatch(ChangeTaskTitleAC(todolistId, taskId, title))
+//                     }
+//                 })
+//         }
+//     };
 
-        taskAPI.updateTask(todolistId, taskId, updateTask)
-            .then(res => {
-                if (res.data.resultCode === 0) {
-                    dispatch(ChangeTaskStatusAC(todolistId, taskId, status))
-                }
-            })
-    }
-};
-
-export const updateTaskTitleTC = (todolistId: string, taskId: string, title: string): AppThunk =>
+export const updateTaskTC = (todolistId: string, taskId: string, model: UpdateTaskModelType): AppThunk =>
     (dispatch: AppDispatch, getState: () => AppRootStateType) => {
         const tasks = getState().tasks[todolistId];
         const task = tasks.find(t => t.id === taskId);
@@ -60,17 +100,18 @@ export const updateTaskTitleTC = (todolistId: string, taskId: string, title: str
         if (task) {
             const updateTask: UpdateTaskType = {
                 description: task.description,
-                title: title,
+                title: task.title,
                 status: task.status,
                 priority: task.priority,
                 startDate: task.startDate,
-                deadline: task.deadline
+                deadline: task.deadline,
+                ...model
             }
 
             taskAPI.updateTask(todolistId, taskId, updateTask)
                 .then(res => {
                     if (res.data.resultCode === 0) {
-                        dispatch(ChangeTaskTitleAC(todolistId, taskId, title))
+                        dispatch(UpdateTaskAC(todolistId, taskId, model))
                     }
                 })
         }

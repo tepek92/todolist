@@ -4,7 +4,7 @@ import {
     ChangeTaskStatusAC,
     ChangeTaskTitleAC,
     RemoveTaskAC,
-    RemoveTodolistAC, SetTasksAC, SetTodolistAC
+    RemoveTodolistAC, SetTasksAC, SetTodolistAC, UpdateTaskAC
 } from "../actions";
 import {TaskType} from "../../api/task-api";
 
@@ -20,7 +20,8 @@ export type AllTaskActionType =
     | ReturnType<typeof RemoveTodolistAC>
     | ReturnType<typeof AddTodolistAC>
     | ReturnType<typeof SetTodolistAC>
-    | ReturnType<typeof SetTasksAC>;
+    | ReturnType<typeof SetTasksAC>
+    | ReturnType<typeof UpdateTaskAC>;
 
 
 const initialState: TasksStateType = {};
@@ -34,35 +35,28 @@ export const tasksReducer = (state: TasksStateType = initialState, action: AllTa
                 }
             );
         case 'ADD-TASK':
-            // const newTask =
-            //     {
-            //         id: action.taskId,
-            //         todoListId: action.todolistId,
-            //         title: action.newTaskTitle,
-            //         status: TaskStatuses.New,
-            //         priority: TaskPriorities.Low,
-            //         description: '',
-            //         order: 0,
-            //         addedDate: '',
-            //         startDate: '',
-            //         deadline: '',
-            //     }
             return {...state, [action.task.todoListId]: [action.task, ...state[action.task.todoListId]]};
-        case 'CHANGE-TASK-STATUS':
-            return {
-                ...state,
-                [action.todolistId]: state[action.todolistId].map
-                (
-                    t => t.id === action.taskId
-                        ? {...t, status: action.status}
-                        : t
-                )
-            }
-        case 'CHANGE-TASK-TITLE':
+        // case 'CHANGE-TASK-STATUS':
+        //     return {
+        //         ...state,
+        //         [action.todolistId]: state[action.todolistId].map
+        //         (
+        //             t => t.id === action.taskId
+        //                 ? {...t, status: action.status}
+        //                 : t
+        //         )
+        //     }
+        // case 'CHANGE-TASK-TITLE':
+        //     return {
+        //         ...state,
+        //         [action.todolistId]:
+        //             state[action.todolistId].map(t => t.id === action.taskId ? {...t, title: action.newTaskTitle} : t)
+        //     }
+        case "UPDATE-TASK":
             return {
                 ...state,
                 [action.todolistId]:
-                    state[action.todolistId].map(t => t.id === action.taskId ? {...t, title: action.newTaskTitle} : t)
+                    state[action.todolistId].map(t => t.id === action.taskId ? {...t, ...action.model} : t)
             }
         case 'REMOVE-TODOLIST':
             const copyState = {...state};

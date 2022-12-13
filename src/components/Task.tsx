@@ -3,7 +3,7 @@ import {Checkbox, IconButton} from "@mui/material";
 import {EditableSpan} from "./EditableSpan";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {TaskStatuses, TaskType} from "../api/task-api";
-import {removeTasksTC, updateTaskStatusTC, updateTaskTitleTC} from "../state/thunk/tasksThunk";
+import {removeTasksTC, updateTaskTC} from "../state/thunk/tasksThunk";
 import {useAppDispatch} from "../state/hooks";
 
 type TaskPropsType = {
@@ -21,11 +21,11 @@ export const Task = memo((props: TaskPropsType) => {
     const onClickHandler = useCallback(() => dispatch(removeTasksTC(todolistId, id)), [dispatch, todolistId, id]);
 
     const onChangeHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-        dispatch(updateTaskStatusTC(todolistId, id, e.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.New));
+        dispatch(updateTaskTC(todolistId, id, {status: e.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.New}));
     }, [dispatch, todolistId, id]);
 
     const onTitleChangeHandler = useCallback((newValue: string) => {
-        dispatch(updateTaskTitleTC(todolistId, id, newValue))
+        dispatch(updateTaskTC(todolistId, id, {title: newValue}))
     }, [dispatch, todolistId, id]);
 
 
