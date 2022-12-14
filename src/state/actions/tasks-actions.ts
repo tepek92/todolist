@@ -1,5 +1,5 @@
 import {TaskType} from "../../api/task-api";
-import {UpdateTaskModelType} from "../thunk/tasksThunk";
+import {UpdateTaskModelType} from "../thunk/tasks-thunk";
 
 export const RemoveTaskAC = (todolistId: string, taskId: string) =>
     ({type: 'REMOVE-TASK', todolistId, taskId} as const);

@@ -1,4 +1,4 @@
-import {instance} from "./instanceApi";
+import {instance} from "./instance-api";
 import {ResponseType} from "./todolist-api";
 
 export enum TaskStatuses {

@@ -6,7 +6,7 @@ import {
 } from '../state/actions'
 import {v1} from 'uuid'
 import {todolistsReducer} from "../state/reducers";
-import {FilterValuesType, TodolistBllType} from "../state/reducers/todolistsReducer";
+import {FilterValuesType, TodolistBllType} from "../state/reducers/todolists-reducer";
 
 let todolistId1: string;
 let todolistId2: string;

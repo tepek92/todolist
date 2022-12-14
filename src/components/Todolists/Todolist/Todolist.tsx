@@ -1,22 +1,22 @@
 import React, {memo, useCallback, useEffect} from 'react';
-import {EditableSpan} from './EditableSpan';
+import {EditableSpan} from '../../common/EditableSpan';
 import {Button, IconButton} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import {ChangeTodolistFilterAC} from "../state/actions";
-import {AddItemForm, Task} from "./";
-import {FilterValuesType, TodolistBllType} from "../state/reducers/todolistsReducer";
-import {useAppDispatch, useAppSelector} from "../state/hooks";
-import {addTaskTC, fetchTasksTC} from "../state/thunk/tasksThunk";
-import {TaskStatuses, TaskType} from "../api/task-api";
-import {removeTodolistsTC, updateTodolistsTitleTC} from "../state/thunk/todolistThunk";
+import {ChangeTodolistFilterAC} from "../../../state/actions";
+import {AddItemForm, Task} from "../.";
+import {FilterValuesType, TodolistBllType} from "../../../state/reducers/todolists-reducer";
+import {useAppDispatch, useAppSelector} from "../../../state/hooks";
+import {addTaskTC, fetchTasksTC} from "../../../state/thunk/tasks-thunk";
+import {TaskStatuses, TaskType} from "../../../api/task-api";
+import {removeTodolistsTC, updateTodolistsTitleTC} from "../../../state/thunk/todolist-thunk";
 
 
 type PropsType = {
     todolists: TodolistBllType;
 }
 
-export const TodolistWithRedux =  memo((props: PropsType) => {
-        // console.log("Todolist called", props.todolists.title)
+export const Todolist =  memo((props: PropsType) => {
+        // console.log("Todolist called", props.Todolists.title)
         const {id, title, filter} = props.todolists;
 
         // при добавлениее нового тудулиста будут отрисоываваться все

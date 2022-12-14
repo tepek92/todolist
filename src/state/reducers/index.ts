@@ -1,2 +1,2 @@
-export {tasksReducer} from './tasksReducer'
-export {todolistsReducer} from './todolistsReducer'
+export {tasksReducer} from './tasks-reducer'
+export {todolistsReducer} from './todolists-reducer'

@@ -1,10 +1,10 @@
 import React, {ChangeEvent, memo, useCallback} from "react";
 import {Checkbox, IconButton} from "@mui/material";
-import {EditableSpan} from "./EditableSpan";
+import {EditableSpan} from "../../../common/EditableSpan";
 import DeleteIcon from "@mui/icons-material/Delete";
-import {TaskStatuses, TaskType} from "../api/task-api";
-import {removeTasksTC, updateTaskTC} from "../state/thunk/tasksThunk";
-import {useAppDispatch} from "../state/hooks";
+import {TaskStatuses, TaskType} from "../../../../api/task-api";
+import {removeTasksTC, updateTaskTC} from "../../../../state/thunk/tasks-thunk";
+import {useAppDispatch} from "../../../../state/hooks";
 
 type TaskPropsType = {
     todolistId: string
@@ -12,7 +12,6 @@ type TaskPropsType = {
 }
 
 export const Task = memo((props: TaskPropsType) => {
-    // console.log('Task is called')
     const {id, title, status} = props.tasks
     const {todolistId} = props;
 

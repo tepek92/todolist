@@ -1,7 +1,7 @@
 import {AddTodolistAC, RemoveTodolistAC} from "../state/actions";
 import {tasksReducer, todolistsReducer} from "../state/reducers";
-import {TasksStateType} from "../state/reducers/tasksReducer";
-import {TodolistBllType} from "../state/reducers/todolistsReducer";
+import {TasksStateType} from "../state/reducers/tasks-reducer";
+import {TodolistBllType} from "../state/reducers/todolists-reducer";
 import {TaskPriorities, TaskStatuses} from "../api/task-api";
 import {v1} from "uuid";
 

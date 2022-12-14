@@ -1,4 +1,4 @@
-import {FilterValuesType} from "../reducers/todolistsReducer";
+import {FilterValuesType} from "../reducers/todolists-reducer";
 import {TodolistType} from "../../api/todolist-api";
 
 export const RemoveTodolistAC = (todolistId: string) =>

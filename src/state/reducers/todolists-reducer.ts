@@ -6,20 +6,6 @@ import {
 } from "../actions";
 import {TodolistType} from "../../api/todolist-api";
 
-
-export type FilterValuesType = "all" | "active" | "completed";
-
-export type TodolistBllType = TodolistType & {
-    filter: FilterValuesType
-}
-
-export type AllTodolistsActionType =
-    ReturnType<typeof RemoveTodolistAC>
-    | ReturnType<typeof AddTodolistAC>
-    | ReturnType<typeof ChangeTodolistTitleAC>
-    | ReturnType<typeof ChangeTodolistFilterAC>
-    | ReturnType<typeof SetTodolistAC>;
-
 const initialState: TodolistBllType[] = [];
 
 export const todolistsReducer = (state: TodolistBllType[] = initialState, action: AllTodolistsActionType): TodolistBllType[] => {
@@ -42,4 +28,17 @@ export const todolistsReducer = (state: TodolistBllType[] = initialState, action
             return state;
     }
 };
+
+// types
+
+export type FilterValuesType = "all" | "active" | "completed";
+
+export type TodolistBllType = TodolistType & {filter: FilterValuesType};
+
+export type AllTodolistsActionType =
+    | ReturnType<typeof RemoveTodolistAC>
+    | ReturnType<typeof AddTodolistAC>
+    | ReturnType<typeof ChangeTodolistTitleAC>
+    | ReturnType<typeof ChangeTodolistFilterAC>
+    | ReturnType<typeof SetTodolistAC>;
 

@@ -2,7 +2,6 @@ import {todolistAPI} from "../../api/todolist-api";
 import {AddTodolistAC, ChangeTodolistTitleAC, RemoveTodolistAC, SetTodolistAC} from "../actions";
 import {AppDispatch, AppThunk} from "../store";
 
-
 export const fetchTodolistsTC = (): AppThunk => (dispatch: AppDispatch) => {
     todolistAPI.getTodolist()
         .then(res => {

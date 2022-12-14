@@ -1,2 +1,2 @@
-export * from './tasksActions'
-export * from './todolistsActions'
+export * from './tasks-actions'
+export * from './todolists-actions'

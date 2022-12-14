@@ -8,23 +8,8 @@ import {
 } from "../actions";
 import {TaskType} from "../../api/task-api";
 
-export type TasksStateType = {
-    [key: string]: TaskType[]
-};
-
-export type AllTaskActionType =
-    ReturnType<typeof RemoveTaskAC>
-    | ReturnType<typeof AddTaskAC>
-    | ReturnType<typeof ChangeTaskStatusAC>
-    | ReturnType<typeof ChangeTaskTitleAC>
-    | ReturnType<typeof RemoveTodolistAC>
-    | ReturnType<typeof AddTodolistAC>
-    | ReturnType<typeof SetTodolistAC>
-    | ReturnType<typeof SetTasksAC>
-    | ReturnType<typeof UpdateTaskAC>;
-
-
 const initialState: TasksStateType = {};
+
 export const tasksReducer = (state: TasksStateType = initialState, action: AllTaskActionType): TasksStateType => {
     switch (action.type) {
         case 'REMOVE-TASK':
@@ -36,22 +21,6 @@ export const tasksReducer = (state: TasksStateType = initialState, action: AllTa
             );
         case 'ADD-TASK':
             return {...state, [action.task.todoListId]: [action.task, ...state[action.task.todoListId]]};
-        // case 'CHANGE-TASK-STATUS':
-        //     return {
-        //         ...state,
-        //         [action.todolistId]: state[action.todolistId].map
-        //         (
-        //             t => t.id === action.taskId
-        //                 ? {...t, status: action.status}
-        //                 : t
-        //         )
-        //     }
-        // case 'CHANGE-TASK-TITLE':
-        //     return {
-        //         ...state,
-        //         [action.todolistId]:
-        //             state[action.todolistId].map(t => t.id === action.taskId ? {...t, title: action.newTaskTitle} : t)
-        //     }
         case "UPDATE-TASK":
             return {
                 ...state,
@@ -74,3 +43,20 @@ export const tasksReducer = (state: TasksStateType = initialState, action: AllTa
             return state;
     }
 };
+
+// types
+
+export type TasksStateType = {
+    [key: string]: TaskType[]
+};
+
+export type AllTaskActionType =
+    ReturnType<typeof RemoveTaskAC>
+    | ReturnType<typeof AddTaskAC>
+    | ReturnType<typeof ChangeTaskStatusAC>
+    | ReturnType<typeof ChangeTaskTitleAC>
+    | ReturnType<typeof RemoveTodolistAC>
+    | ReturnType<typeof AddTodolistAC>
+    | ReturnType<typeof SetTodolistAC>
+    | ReturnType<typeof SetTasksAC>
+    | ReturnType<typeof UpdateTaskAC>;

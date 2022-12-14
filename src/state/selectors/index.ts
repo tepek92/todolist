@@ -1,2 +1,2 @@
-export {tasksSelector} from './tasksSelector'
-export {todolistsSelector} from './todolistsSelector'
+export {tasksSelector} from './tasks-selector'
+export {todolistsSelector} from './todolists-selector'

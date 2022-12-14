@@ -1,4 +1,4 @@
-import {instance} from "./instanceApi";
+import {instance} from "./instance-api";
 
 export type TodolistType = {
     id: string
