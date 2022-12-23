@@ -14,6 +14,8 @@ export type ResponseType<T = {}> = {
     resultCode: number
 }
 
+// AxiosResponse<ResponseType>
+
 export const todolistAPI = {
     getTodolist() {
         return instance.get<Array<TodolistType>>('todo-lists')

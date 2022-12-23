@@ -33,19 +33,19 @@ test('property with todolistId should be deleted', () => {
     const startState: TasksStateType = {
         'todolistId1': [
             {id: 'taskId1', title: 'CSS', todoListId: 'todolistId1', status: TaskStatuses.New, priority: TaskPriorities.Low,
-                description: '', order: 0, addedDate: '', startDate: '', deadline: ''},
+                description: '', order: 0, addedDate: '', startDate: '', deadline: '', entityStatus: 'idle'},
             {id: 'taskId2', title: 'JS', todoListId: 'todolistId1', status: TaskStatuses.Completed, priority: TaskPriorities.Low,
-                description: '', order: 0, addedDate: '', startDate: '', deadline: ''},
+                description: '', order: 0, addedDate: '', startDate: '', deadline: '', entityStatus: 'idle'},
             {id: 'taskId3', title: 'React', todoListId: 'todolistId1', status: TaskStatuses.New, priority: TaskPriorities.Low,
-                description: '', order: 0, addedDate: '', startDate: '', deadline: ''}
+                description: '', order: 0, addedDate: '', startDate: '', deadline: '', entityStatus: 'idle'}
         ],
         'todolistId2': [
             {id: 'taskId1', title: 'bread', todoListId: 'todolistId2', status: TaskStatuses.New, priority: TaskPriorities.Low,
-                description: '', order: 0, addedDate: '', startDate: '', deadline: ''},
+                description: '', order: 0, addedDate: '', startDate: '', deadline: '', entityStatus: 'idle'},
             {id: 'taskId2', title: 'milk', todoListId: 'todolistId2', status: TaskStatuses.Completed, priority: TaskPriorities.Low,
-                description: '', order: 0, addedDate: '', startDate: '', deadline: ''},
+                description: '', order: 0, addedDate: '', startDate: '', deadline: '', entityStatus: 'idle'},
             {id: 'taskId3', title: 'tea', todoListId: 'todolistId2', status: TaskStatuses.New, priority: TaskPriorities.Low,
-                description: '', order: 0, addedDate: '', startDate: '', deadline: ''}
+                description: '', order: 0, addedDate: '', startDate: '', deadline: '', entityStatus: 'idle'}
         ]
     };
 

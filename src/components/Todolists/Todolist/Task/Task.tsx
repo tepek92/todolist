@@ -1,18 +1,20 @@
 import React, {ChangeEvent, memo, useCallback} from "react";
-import {Checkbox, IconButton} from "@mui/material";
-import {EditableSpan} from "../../../common/EditableSpan";
+import Checkbox from "@mui/material/Checkbox";
+import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
-import {TaskStatuses, TaskType} from "../../../../api/task-api";
+import {EditableSpan} from "../../../common/EditableSpan";
+import {TaskStatuses} from "../../../../api/task-api";
 import {removeTasksTC, updateTaskTC} from "../../../../state/thunk/tasks-thunk";
 import {useAppDispatch} from "../../../../state/hooks";
+import {TaskBllType} from "../../../../state/reducers/tasks-reducer";
 
 type TaskPropsType = {
     todolistId: string
-    tasks: TaskType
+    tasks: TaskBllType
 }
 
 export const Task = memo((props: TaskPropsType) => {
-    const {id, title, status} = props.tasks
+    const {id, title, status, entityStatus} = props.tasks
     const {todolistId} = props;
 
     const dispatch = useAppDispatch();
@@ -27,12 +29,27 @@ export const Task = memo((props: TaskPropsType) => {
         dispatch(updateTaskTC(todolistId, id, {title: newValue}))
     }, [dispatch, todolistId, id]);
 
+    const disabledEditableSpan = entityStatus === 'loading' || status === TaskStatuses.Completed;
+
 
     return (
         <div>
-            <Checkbox onChange={onChangeHandler} checked={status === TaskStatuses.Completed}/>
-            <EditableSpan value={title} onChange={onTitleChangeHandler}/>
-            <IconButton aria-label="delete" onClick={onClickHandler} size="small">
+            <Checkbox
+                onChange={onChangeHandler}
+                checked={status === TaskStatuses.Completed}
+                disabled={entityStatus === 'loading'}
+            />
+            <EditableSpan
+                disabled={disabledEditableSpan}
+                value={title}
+                onChange={onTitleChangeHandler}
+            />
+            <IconButton
+                aria-label="delete"
+                onClick={onClickHandler}
+                size="small"
+                disabled={entityStatus === 'loading'}
+            >
                 <DeleteIcon fontSize="inherit"/>
             </IconButton>
         </div>

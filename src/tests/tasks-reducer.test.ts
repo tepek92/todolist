@@ -1,8 +1,6 @@
 import { v1 } from 'uuid'
 import {
     AddTaskAC,
-    ChangeTaskStatusAC,
-    ChangeTaskTitleAC,
     RemoveTaskAC,
     AddTodolistAC, SetTodolistAC, SetTasksAC, UpdateTaskAC
 } from "../state/actions";
@@ -43,19 +41,19 @@ beforeEach(() => {
     startState = {
         [todolistId1]: [
             {id: taskId1, title: 'CSS', todoListId: todolistId1, status: TaskStatuses.New, priority: TaskPriorities.Low,
-                description: '', order: 0, addedDate: '', startDate: '', deadline: ''},
+                description: '', order: 0, addedDate: '', startDate: '', deadline: '', entityStatus: 'idle'},
             {id: taskId2, title: 'JS', todoListId: todolistId1, status: TaskStatuses.Completed, priority: TaskPriorities.Low,
-                description: '', order: 0, addedDate: '', startDate: '', deadline: ''},
+                description: '', order: 0, addedDate: '', startDate: '', deadline: '', entityStatus: 'idle'},
             {id: taskId3, title: 'React', todoListId: todolistId1, status: TaskStatuses.New, priority: TaskPriorities.Low,
-                description: '', order: 0, addedDate: '', startDate: '', deadline: ''}
+                description: '', order: 0, addedDate: '', startDate: '', deadline: '', entityStatus: 'idle'}
         ],
         [todolistId2]: [
             {id: taskId1, title: 'bread', todoListId: todolistId2, status: TaskStatuses.New, priority: TaskPriorities.Low,
-                description: '', order: 0, addedDate: '', startDate: '', deadline: ''},
+                description: '', order: 0, addedDate: '', startDate: '', deadline: '', entityStatus: 'idle'},
             {id: taskId2, title: 'milk', todoListId: todolistId2, status: TaskStatuses.Completed, priority: TaskPriorities.Low,
-                description: '', order: 0, addedDate: '', startDate: '', deadline: ''},
+                description: '', order: 0, addedDate: '', startDate: '', deadline: '', entityStatus: 'idle'},
             {id: taskId3, title: 'tea', todoListId: todolistId2, status: TaskStatuses.New, priority: TaskPriorities.Low,
-                description: '', order: 0, addedDate: '', startDate: '', deadline: ''}
+                description: '', order: 0, addedDate: '', startDate: '', deadline: '', entityStatus: 'idle'}
         ]
     };
 })
@@ -69,17 +67,17 @@ test('correct task should be deleted from correct array', () => {
     expect(endState).toEqual({
         [todolistId1]: [
             {id: taskId1, title: 'CSS', todoListId: todolistId1, status: TaskStatuses.New, priority: TaskPriorities.Low,
-                description: '', order: 0, addedDate: '', startDate: '', deadline: ''},
+                description: '', order: 0, addedDate: '', startDate: '', deadline: '', entityStatus: 'idle'},
             {id: taskId2, title: 'JS', todoListId: todolistId1, status: TaskStatuses.Completed, priority: TaskPriorities.Low,
-                description: '', order: 0, addedDate: '', startDate: '', deadline: ''},
+                description: '', order: 0, addedDate: '', startDate: '', deadline: '', entityStatus: 'idle'},
             {id: taskId3, title: 'React', todoListId: todolistId1, status: TaskStatuses.New, priority: TaskPriorities.Low,
-                description: '', order: 0, addedDate: '', startDate: '', deadline: ''}
+                description: '', order: 0, addedDate: '', startDate: '', deadline: '', entityStatus: 'idle'}
         ],
         [todolistId2]: [
             {id: taskId1, title: 'bread', todoListId: todolistId2, status: TaskStatuses.New, priority: TaskPriorities.Low,
-                description: '', order: 0, addedDate: '', startDate: '', deadline: ''},
+                description: '', order: 0, addedDate: '', startDate: '', deadline: '', entityStatus: 'idle'},
             {id: taskId2, title: 'milk', todoListId: todolistId2, status: TaskStatuses.Completed, priority: TaskPriorities.Low,
-                description: '', order: 0, addedDate: '', startDate: '', deadline: ''},
+                description: '', order: 0, addedDate: '', startDate: '', deadline: '', entityStatus: 'idle'},
         ]
     });
 });

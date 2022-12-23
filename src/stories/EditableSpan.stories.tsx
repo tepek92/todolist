@@ -1,7 +1,7 @@
 import React from 'react';
 import {ComponentStory, ComponentMeta} from '@storybook/react';
+import {EditableSpan} from "../components/common/EditableSpan";
 
-import {EditableSpan} from '../components';
 
 export default {
     title: 'Todolist/EditableSpan',

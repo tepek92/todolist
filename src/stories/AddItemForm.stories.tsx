@@ -1,10 +1,10 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import {ComponentStory, ComponentMeta} from '@storybook/react';
 
-import {AddItemForm} from '../components';
 // import {action} from "@storybook/addon-actions";
 import {IconButton, TextField} from "@mui/material";
 import {AddBox} from "@mui/icons-material";
+import {AddItemForm} from "../components/common/AddItemForm";
 
 export default {
     title: 'Todolist/AddItemForm',

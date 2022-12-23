@@ -1,11 +1,11 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import {Todolist} from '../components';
 import {ReduxStoreProviderDecorator} from "./decorators/ReduxStoreProviderDecorator";
 import {AppRootStateType} from "../state/store";
 import {useSelector} from "react-redux";
 import {TodolistBllType} from "../state/reducers/todolists-reducer";
+import {Todolist} from "../components/Todolists/Todolist/Todolist";
 
 
 export default {

@@ -1,15 +1,21 @@
 import React, {useCallback, useEffect} from 'react';
-import {Container, Grid, Paper} from "@mui/material";
+import Container from "@mui/material/Container";
+import Grid from "@mui/material/Grid";
+import LinearProgress from "@mui/material/LinearProgress";
+import Paper from "@mui/material/Paper";
 import {useAppDispatch, useAppSelector} from "../../state/hooks";
 import {TodolistBllType} from "../../state/reducers/todolists-reducer";
-import {todolistsSelector} from "../../state/selectors";
+import {requestStatusSelector, todolistsSelector} from "../../state/selectors";
 import {addTodolistsTC, fetchTodolistsTC} from '../../state/thunk/todolist-thunk';
 import {Todolist} from "./Todolist/Todolist";
-import {AddItemForm} from "../common/AddItemForm";
+import {RequestStatusType} from "../../state/reducers/app-reducer";
+import { AddItemForm } from '../common/AddItemForm';
+import {ErrorSnackbar} from "../common/ErrorSnackbar";
 
 
 export function Todolists() {
     const todolists = useAppSelector<TodolistBllType[]>(todolistsSelector);
+    const requestStatus = useAppSelector<RequestStatusType>(requestStatusSelector)
     const dispatch = useAppDispatch()
 
     useEffect(() => {
@@ -31,8 +37,10 @@ export function Todolists() {
     });
 
     return (
-        <>
-            <Container fixed>
+    <>
+        <ErrorSnackbar />
+        {requestStatus === 'loading' && <LinearProgress />}
+        <Container fixed>
                 <Grid container style={{padding: '20px'}}>
                     <AddItemForm addItem={addTodolist} />
                 </Grid>

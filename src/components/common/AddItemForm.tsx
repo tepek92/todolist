@@ -1,14 +1,16 @@
 import React, {ChangeEvent, KeyboardEvent, memo, useState} from 'react';
-import {IconButton, TextField} from "@mui/material";
-import {AddBox} from "@mui/icons-material";
+import IconButton from "@mui/material/IconButton";
+import TextField from "@mui/material/TextField";
+import AddBox from "@mui/icons-material/AddBox";
 
 type AddItemFormPropsType = {
     addItem: (title: string) => void
+    disabled?: boolean
 }
 
 export const AddItemForm = memo((props: AddItemFormPropsType) => {
     // console.log('AddItemForm called')
-    const {addItem} = props;
+    const {addItem, disabled} = props;
 
     let [title, setTitle] = useState("");
     let [error, setError] = useState<string | null>(null);
@@ -32,8 +34,8 @@ export const AddItemForm = memo((props: AddItemFormPropsType) => {
             addNewItem();
         }
     };
-
-    const styleButton = {maxWidth: '30px', maxHeight: '55px', minWidth: '30px', minHeight: '55px', marginLeft: '5px'};
+    const styleButton = {width: '40px', height: '40px', marginLeft: '5px'};
+    const styleTextField = {marginBottom: '10px'}
 
     return <div>
         <TextField
@@ -45,8 +47,10 @@ export const AddItemForm = memo((props: AddItemFormPropsType) => {
             variant="outlined"
             error={!!error}
             helperText={error}
+            disabled={disabled}
+            style={styleTextField}
         />
-        <IconButton style={styleButton} color="primary" onClick={addNewItem}>
+        <IconButton style={styleButton} color="primary" onClick={addNewItem} disabled={disabled}>
             <AddBox />
         </IconButton>
     </div>
