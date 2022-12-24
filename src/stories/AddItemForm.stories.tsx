@@ -4,7 +4,7 @@ import {ComponentStory, ComponentMeta} from '@storybook/react';
 // import {action} from "@storybook/addon-actions";
 import {IconButton, TextField} from "@mui/material";
 import {AddBox} from "@mui/icons-material";
-import {AddItemForm} from "../components/common/AddItemForm";
+import {AddItemForm} from "../components/common/AddItemForm/AddItemForm";
 
 export default {
     title: 'Todolist/AddItemForm',
@@ -83,3 +83,14 @@ const TemplateWithError: ComponentStory<typeof AddItemForm> = (args) => {
 };
 // создаем копию, которая уже отрисовывается стробуком
 export const AddItemsWithErrorFormExample = TemplateWithError.bind({});
+
+
+// Disabled
+const TemplateDisabled: ComponentStory<typeof AddItemForm> = (args) => <AddItemForm {...args} />;
+
+export const AddItemsFormDisabled = TemplateDisabled.bind({
+});
+
+AddItemsFormDisabled.args = {
+    disabled: true
+}

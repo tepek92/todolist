@@ -1,15 +1,15 @@
 import React, {memo, useCallback, useEffect} from 'react';
-import {EditableSpan} from '../../common/EditableSpan';
+import {EditableSpan} from '../../common/EditableSpan/EditableSpan';
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
-import {ChangeTodolistFilterAC} from "../../../state/actions";
+import {changeTodolistFilterAC} from "../../../state/actions";
 import {FilterValuesType, TodolistBllType} from "../../../state/reducers/todolists-reducer";
 import {useAppDispatch, useAppSelector} from "../../../state/hooks";
 import {addTaskTC, fetchTasksTC} from "../../../state/thunk/tasks-thunk";
 import {TaskStatuses} from "../../../api/task-api";
 import {removeTodolistsTC, updateTodolistsTitleTC} from "../../../state/thunk/todolist-thunk";
-import {AddItemForm} from "../../common/AddItemForm";
+import {AddItemForm} from "../../common/AddItemForm/AddItemForm";
 import {Task} from "./Task/Task";
 import {TaskBllType} from "../../../state/reducers/tasks-reducer";
 
@@ -36,9 +36,9 @@ export const Todolist =  memo((props: PropsType) => {
         const changeTodolistTitleHandler = useCallback((title: string) =>
             dispatch(updateTodolistsTitleTC(id, title)), [dispatch, id]);
 
-        const onAllClickHandler = useCallback(() => dispatch(ChangeTodolistFilterAC(id, "all")), [dispatch, id]);
-        const onActiveClickHandler = useCallback(() => dispatch(ChangeTodolistFilterAC(id, "active")), [dispatch, id]);
-        const onCompletedClickHandler = useCallback(() => dispatch(ChangeTodolistFilterAC(id, "completed")), [dispatch, id]);
+        const onAllClickHandler = useCallback(() => dispatch(changeTodolistFilterAC(id, "all")), [dispatch, id]);
+        const onActiveClickHandler = useCallback(() => dispatch(changeTodolistFilterAC(id, "active")), [dispatch, id]);
+        const onCompletedClickHandler = useCallback(() => dispatch(changeTodolistFilterAC(id, "completed")), [dispatch, id]);
 
         const getFilteredTasks = (tasks: TaskBllType[], filter: FilterValuesType): TaskBllType[] => {
             if (filter === "active") {

@@ -1,6 +1,6 @@
 import {
-    AddTaskAC, AddTodolistAC, changeTaskEntityStatusAC,
-    RemoveTaskAC, RemoveTodolistAC, SetTasksAC, SetTodolistAC, UpdateTaskAC
+    addTaskAC, addTodolistAC, changeTaskEntityStatusAC,
+    removeTaskAC, removeTodolistAC, setTasksAC, setTodolistAC, updateTaskAC
 } from "../actions";
 import {TaskType} from "../../api/task-api";
 import {RequestStatusType} from "./app-reducer";
@@ -57,11 +57,11 @@ export type TaskBllType = TaskType & {
 }
 
 export type AllTaskActionType =
-    | ReturnType<typeof RemoveTaskAC>
-    | ReturnType<typeof AddTaskAC>
-    | ReturnType<typeof RemoveTodolistAC>
-    | ReturnType<typeof AddTodolistAC>
-    | ReturnType<typeof SetTodolistAC>
-    | ReturnType<typeof SetTasksAC>
-    | ReturnType<typeof UpdateTaskAC>
+    | ReturnType<typeof removeTaskAC>
+    | ReturnType<typeof addTaskAC>
+    | ReturnType<typeof removeTodolistAC>
+    | ReturnType<typeof addTodolistAC>
+    | ReturnType<typeof setTodolistAC>
+    | ReturnType<typeof setTasksAC>
+    | ReturnType<typeof updateTaskAC>
     | ReturnType<typeof changeTaskEntityStatusAC>;

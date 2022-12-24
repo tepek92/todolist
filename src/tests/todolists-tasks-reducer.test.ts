@@ -1,4 +1,4 @@
-import {AddTodolistAC, RemoveTodolistAC} from "../state/actions";
+import {addTodolistAC, removeTodolistAC} from "../state/actions";
 import {tasksReducer, todolistsReducer} from "../state/reducers";
 import {TasksStateType} from "../state/reducers/tasks-reducer";
 import {TodolistBllType} from "../state/reducers/todolists-reducer";
@@ -16,7 +16,7 @@ test('ids should be equals', () => {
         addedDate: '',
         order: 0
     }
-    const action = AddTodolistAC(newTodolist)
+    const action = addTodolistAC(newTodolist)
 
     const endTasksState = tasksReducer(startTasksState, action)
     const endTodolistsState = todolistsReducer(startTodolistsState, action)
@@ -49,7 +49,7 @@ test('property with todolistId should be deleted', () => {
         ]
     };
 
-    const action = RemoveTodolistAC('todolistId2');
+    const action = removeTodolistAC('todolistId2');
 
     const endState = tasksReducer(startState, action);
 

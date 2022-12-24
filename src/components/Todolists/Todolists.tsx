@@ -9,8 +9,8 @@ import {requestStatusSelector, todolistsSelector} from "../../state/selectors";
 import {addTodolistsTC, fetchTodolistsTC} from '../../state/thunk/todolist-thunk';
 import {Todolist} from "./Todolist/Todolist";
 import {RequestStatusType} from "../../state/reducers/app-reducer";
-import { AddItemForm } from '../common/AddItemForm';
-import {ErrorSnackbar} from "../common/ErrorSnackbar";
+import { AddItemForm } from '../common/AddItemForm/AddItemForm';
+import {ErrorSnackbar} from "../common/ErrorSnackbar/ErrorSnackbar";
 
 
 export function Todolists() {

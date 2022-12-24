@@ -1,8 +1,8 @@
 import {
-    AddTodolistAC, changeTodolistEntityStatusAC,
-    ChangeTodolistFilterAC,
-    ChangeTodolistTitleAC,
-    RemoveTodolistAC, SetTodolistAC
+    addTodolistAC, changeTodolistEntityStatusAC,
+    changeTodolistFilterAC,
+    changeTodolistTitleAC,
+    removeTodolistAC, setTodolistAC
 } from "../actions";
 import {TodolistType} from "../../api/todolist-api";
 import {RequestStatusType} from "./app-reducer";
@@ -44,10 +44,10 @@ export type TodolistBllType =
     };
 
 export type AllTodolistsActionType =
-    | ReturnType<typeof RemoveTodolistAC>
-    | ReturnType<typeof AddTodolistAC>
-    | ReturnType<typeof ChangeTodolistTitleAC>
-    | ReturnType<typeof ChangeTodolistFilterAC>
-    | ReturnType<typeof SetTodolistAC>
+    | ReturnType<typeof removeTodolistAC>
+    | ReturnType<typeof addTodolistAC>
+    | ReturnType<typeof changeTodolistTitleAC>
+    | ReturnType<typeof changeTodolistFilterAC>
+    | ReturnType<typeof setTodolistAC>
     | ReturnType<typeof changeTodolistEntityStatusAC>;
 

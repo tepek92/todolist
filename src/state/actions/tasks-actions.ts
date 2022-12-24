@@ -2,16 +2,16 @@ import {TaskType} from "../../api/task-api";
 import {UpdateTaskModelType} from "../thunk/tasks-thunk";
 import {RequestStatusType} from "../reducers/app-reducer";
 
-export const RemoveTaskAC = (todolistId: string, taskId: string) =>
+export const removeTaskAC = (todolistId: string, taskId: string) =>
     ({type: 'REMOVE-TASK', todolistId, taskId} as const);
 
-export const AddTaskAC = (task: TaskType) =>
+export const addTaskAC = (task: TaskType) =>
     ({type: 'ADD-TASK', task} as const);
 
-export const UpdateTaskAC = (todolistId: string, taskId: string, model: UpdateTaskModelType) =>
+export const updateTaskAC = (todolistId: string, taskId: string, model: UpdateTaskModelType) =>
     ({type: 'UPDATE-TASK', todolistId, taskId, model} as const);
 
-export const SetTasksAC = (todolistId: string, tasks: TaskType[]) =>
+export const setTasksAC = (todolistId: string, tasks: TaskType[]) =>
     ({type: 'SET-TASKS', todolistId, tasks} as const);
 
 export const changeTaskEntityStatusAC = (todolistId: string, taskId: string, entityStatus: RequestStatusType) =>

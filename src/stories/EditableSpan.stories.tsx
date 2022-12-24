@@ -1,6 +1,6 @@
 import React from 'react';
 import {ComponentStory, ComponentMeta} from '@storybook/react';
-import {EditableSpan} from "../components/common/EditableSpan";
+import {EditableSpan} from "../components/common/EditableSpan/EditableSpan";
 
 
 export default {
@@ -23,3 +23,11 @@ const Template: ComponentStory<typeof EditableSpan> = (args) => <EditableSpan {.
 export const EditableSpanExample = Template.bind({});
 
 EditableSpanExample.args = {};
+
+const TemplateDisabled: ComponentStory<typeof EditableSpan> = (args) => <EditableSpan {...args} />;
+
+export const EditableSpanDisabled = TemplateDisabled.bind({});
+
+EditableSpanDisabled.args = {
+    disabled: true
+};

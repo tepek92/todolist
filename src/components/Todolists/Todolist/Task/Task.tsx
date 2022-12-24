@@ -2,7 +2,7 @@ import React, {ChangeEvent, memo, useCallback} from "react";
 import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
-import {EditableSpan} from "../../../common/EditableSpan";
+import {EditableSpan} from "../../../common/EditableSpan/EditableSpan";
 import {TaskStatuses} from "../../../../api/task-api";
 import {removeTasksTC, updateTaskTC} from "../../../../state/thunk/tasks-thunk";
 import {useAppDispatch} from "../../../../state/hooks";

@@ -1,10 +1,10 @@
 import {todolistAPI} from "../../api/todolist-api";
 import {
-    AddTodolistAC,
+    addTodolistAC,
     changeTodolistEntityStatusAC,
-    ChangeTodolistTitleAC,
-    RemoveTodolistAC,
-    SetTodolistAC
+    changeTodolistTitleAC,
+    removeTodolistAC,
+    setTodolistAC
 } from "../actions";
 import {AppDispatch, AppThunk} from "../store";
 import {setAppStatusAC} from "../actions/app-actions";
@@ -15,7 +15,7 @@ export const fetchTodolistsTC = (): AppThunk => async (dispatch: AppDispatch) =>
     dispatch(setAppStatusAC('loading'));
     try {
         const res = await todolistAPI.getTodolist();
-        dispatch(SetTodolistAC(res.data));
+        dispatch(setTodolistAC(res.data));
         dispatch(setAppStatusAC('succeeded'));
     } catch (error) {
         // const error = e as Error | AxiosError<{ error: string }>
@@ -35,8 +35,8 @@ export const removeTodolistsTC = (todolistId: string): AppThunk => async (dispat
 
     try {
         const res = await todolistAPI.deleteTodolist(todolistId);
-        if (res.data.resultCode === 0) {
-            dispatch(RemoveTodolistAC(todolistId));
+        if (res.data.resultCode === RESULT_CODE.SUCCESS) {
+            dispatch(removeTodolistAC(todolistId));
             dispatch(setAppStatusAC('succeeded'));
         } else {
             handleServerAppError(res.data, dispatch);
@@ -55,8 +55,8 @@ export const addTodolistsTC = (title: string): AppThunk => async (dispatch: AppD
     dispatch(setAppStatusAC('loading'));
     try {
         const res = await todolistAPI.createTodolist(title);
-        if (res.data.resultCode === 0) {
-            dispatch(AddTodolistAC(res.data.data.item));
+        if (res.data.resultCode === RESULT_CODE.SUCCESS) {
+            dispatch(addTodolistAC(res.data.data.item));
             dispatch(setAppStatusAC('succeeded'));
         } else {
             handleServerAppError(res.data, dispatch);
@@ -76,8 +76,8 @@ export const updateTodolistsTitleTC = (todolistId: string, newTodolistTitle: str
 
         try {
             const res = await todolistAPI.updateTodolistTitle(todolistId, newTodolistTitle);
-            if (res.data.resultCode === 0) {
-                dispatch(ChangeTodolistTitleAC(todolistId, newTodolistTitle));
+            if (res.data.resultCode === RESULT_CODE.SUCCESS) {
+                dispatch(changeTodolistTitleAC(todolistId, newTodolistTitle));
                 dispatch(setAppStatusAC('succeeded'));
             } else {
                 handleServerAppError(res.data, dispatch);
@@ -91,3 +91,12 @@ export const updateTodolistsTitleTC = (todolistId: string, newTodolistTitle: str
             dispatch(changeTodolistEntityStatusAC(todolistId, 'idle'));
         }
     }
+
+
+    // types
+
+export enum RESULT_CODE {
+    SUCCESS,
+    ERROR,
+    CAPTCHA = 10
+}

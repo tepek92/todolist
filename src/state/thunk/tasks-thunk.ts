@@ -1,21 +1,22 @@
 import {
-    AddTaskAC,
+    addTaskAC,
     changeTaskEntityStatusAC,
-    RemoveTaskAC,
-    SetTasksAC,
-    UpdateTaskAC
+    removeTaskAC,
+    setTasksAC,
+    updateTaskAC
 } from "../actions";
 import {AppDispatch, AppRootStateType, AppThunk} from "../store";
 import {taskAPI, UpdateTaskType} from "../../api/task-api";
 import {setAppStatusAC} from "../actions/app-actions";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 import axios, {AxiosError} from "axios";
+import {RESULT_CODE} from "./todolist-thunk";
 
 export const fetchTasksTC = (todolistId: string): AppThunk => async (dispatch: AppDispatch) => {
     dispatch(setAppStatusAC('loading'));
     try {
         const res = await taskAPI.getTask(todolistId);
-        dispatch(SetTasksAC(todolistId, res.data.items));
+        dispatch(setTasksAC(todolistId, res.data.items));
         dispatch(setAppStatusAC('succeeded'));
     } catch (error) {
         if(axios.isAxiosError<AxiosError<{message: string}>>(error)) {
@@ -30,8 +31,8 @@ export const removeTasksTC = (todolistId: string, taskId: string): AppThunk => a
     dispatch(changeTaskEntityStatusAC(todolistId, taskId, 'loading'));
     try {
         const res = await taskAPI.deleteTask(todolistId, taskId);
-        if (res.data.resultCode === 0) {
-            dispatch(RemoveTaskAC(todolistId, taskId));
+        if (res.data.resultCode === RESULT_CODE.SUCCESS) {
+            dispatch(removeTaskAC(todolistId, taskId));
             dispatch(setAppStatusAC('succeeded'));
         } else {
             handleServerAppError(res.data, dispatch);
@@ -51,8 +52,8 @@ export const addTaskTC = (todolistID: string, title: string): AppThunk => async 
     dispatch(setAppStatusAC('loading'));
     try {
         const res = await taskAPI.createTask(todolistID, title);
-        if (res.data.resultCode === 0) {
-            dispatch(AddTaskAC(res.data.data.item));
+        if (res.data.resultCode === RESULT_CODE.SUCCESS) {
+            dispatch(addTaskAC(res.data.data.item));
             dispatch(setAppStatusAC('succeeded'));
         } else {
             handleServerAppError(res.data, dispatch);
@@ -87,8 +88,8 @@ export const updateTaskTC = (todolistId: string, taskId: string, model: UpdateTa
 
         try {
             const res = await taskAPI.updateTask(todolistId, taskId, updateTask);
-            if (res.data.resultCode === 0) {
-                dispatch(UpdateTaskAC(todolistId, taskId, model));
+            if (res.data.resultCode === RESULT_CODE.SUCCESS) {
+                dispatch(updateTaskAC(todolistId, taskId, model));
                 dispatch(setAppStatusAC('succeeded'));
             } else {
                 handleServerAppError(res.data, dispatch);
