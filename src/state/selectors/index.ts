@@ -1,3 +1,6 @@
 export {tasksSelector} from './tasks-selector'
 export {todolistsSelector} from './todolists-selector'
+export {isLoggedInSelector} from './auth-selector'
 export {requestStatusSelector} from './app-selector'
+export {errorAppSelector} from './app-selector'
+export {isInitializedAppSelector} from './app-selector'

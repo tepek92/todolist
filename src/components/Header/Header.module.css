@@ -1,0 +1,6 @@
+.link a:active, /* активная/посещенная ссылка */
+.link a:hover,  /* при наведении */
+.link a {
+    text-decoration: none;
+    color: #fff;
+}

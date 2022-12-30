@@ -1,7 +1,7 @@
 import {
     addTodolistAC, changeTodolistEntityStatusAC,
     changeTodolistFilterAC,
-    changeTodolistTitleAC,
+    changeTodolistTitleAC, clearTodolistsDataAC,
     removeTodolistAC, setTodolistAC,
 } from '../state/actions'
 import {v1} from 'uuid'
@@ -81,4 +81,9 @@ test('correct entity status of todolist should be changed', () => {
     expect(endState[1].entityStatus).toBe(newEntityStatus);
 });
 
+test('todolists should be completely deleted after logout', () => {
+    const endState = todolistsReducer(startState, clearTodolistsDataAC());
+
+    expect(endState.length).toBe(0);
+});
 

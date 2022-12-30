@@ -19,11 +19,12 @@ type PropsType = {
 }
 
 export const Todolist =  memo((props: PropsType) => {
-        // console.log("Todolist called", props.Todolists.title)
+        // console.log("Todolist called", props.todolists.title)
         const {id, title, filter, entityStatus} = props.todolists;
 
         const tasks = useAppSelector<TaskBllType[]>(state => state.tasks[id]);
-        const dispatch = useAppDispatch();
+
+    const dispatch = useAppDispatch();
 
         useEffect(() => {
             dispatch(fetchTasksTC(id));
@@ -48,7 +49,6 @@ export const Todolist =  memo((props: PropsType) => {
             }
             return tasks;
         };
-
 
         const taskElements = getFilteredTasks(tasks, filter).map(t => {
             return <Task

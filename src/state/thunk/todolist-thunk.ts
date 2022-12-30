@@ -4,12 +4,18 @@ import {
     changeTodolistEntityStatusAC,
     changeTodolistTitleAC,
     removeTodolistAC,
-    setTodolistAC
+    setTodolistAC,
+    setAppStatusAC
 } from "../actions";
 import {AppDispatch, AppThunk} from "../store";
-import {setAppStatusAC} from "../actions/app-actions";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 import axios, {AxiosError} from "axios";
+
+export enum RESULT_CODE {
+    SUCCESS,
+    ERROR,
+    CAPTCHA = 10
+}
 
 export const fetchTodolistsTC = (): AppThunk => async (dispatch: AppDispatch) => {
     dispatch(setAppStatusAC('loading'));
@@ -23,8 +29,6 @@ export const fetchTodolistsTC = (): AppThunk => async (dispatch: AppDispatch) =>
             const textError = error.response?.data ? error.response.data.message : error.message
             handleServerNetworkError(textError, dispatch);
         }
-    } finally {
-        dispatch(setAppStatusAC('idle'));
     }
 }
 
@@ -91,12 +95,3 @@ export const updateTodolistsTitleTC = (todolistId: string, newTodolistTitle: str
             dispatch(changeTodolistEntityStatusAC(todolistId, 'idle'));
         }
     }
-
-
-    // types
-
-export enum RESULT_CODE {
-    SUCCESS,
-    ERROR,
-    CAPTCHA = 10
-}

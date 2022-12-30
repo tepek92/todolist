@@ -3,11 +3,11 @@ import {
     changeTaskEntityStatusAC,
     removeTaskAC,
     setTasksAC,
-    updateTaskAC
+    updateTaskAC,
+    setAppStatusAC
 } from "../actions";
 import {AppDispatch, AppRootStateType, AppThunk} from "../store";
 import {taskAPI, UpdateTaskType} from "../../api/task-api";
-import {setAppStatusAC} from "../actions/app-actions";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 import axios, {AxiosError} from "axios";
 import {RESULT_CODE} from "./todolist-thunk";

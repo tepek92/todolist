@@ -1,7 +1,7 @@
 import {
     addTodolistAC, changeTodolistEntityStatusAC,
     changeTodolistFilterAC,
-    changeTodolistTitleAC,
+    changeTodolistTitleAC, clearTodolistsDataAC,
     removeTodolistAC, setTodolistAC
 } from "../actions";
 import {TodolistType} from "../../api/todolist-api";
@@ -27,6 +27,8 @@ export const todolistsReducer = (state: TodolistBllType[] = initialState, action
         }
         case "CHANGE-TODOLIST-ENTITY-STATUS":
             return state.map(td => td.id === action.todolistId ? {...td, entityStatus: action.entityStatus} : td)
+        case "CLEAR-TODOLISTS-DATA":
+            return []
         default:
             return state;
     }
@@ -49,5 +51,6 @@ export type AllTodolistsActionType =
     | ReturnType<typeof changeTodolistTitleAC>
     | ReturnType<typeof changeTodolistFilterAC>
     | ReturnType<typeof setTodolistAC>
-    | ReturnType<typeof changeTodolistEntityStatusAC>;
+    | ReturnType<typeof changeTodolistEntityStatusAC>
+    | ReturnType<typeof clearTodolistsDataAC>;
 

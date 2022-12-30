@@ -2,11 +2,17 @@ import { v1 } from 'uuid'
 import {
     addTaskAC,
     removeTaskAC,
-    addTodolistAC, setTodolistAC, setTasksAC, updateTaskAC
+    addTodolistAC,
+    setTodolistAC,
+    setTasksAC,
+    updateTaskAC,
+    changeTaskEntityStatusAC,
+    removeTodolistAC, clearTodolistsDataAC
 } from "../state/actions";
 import {tasksReducer} from "../state/reducers";
 import {TasksStateType} from "../state/reducers/tasks-reducer";
 import {TaskPriorities, TaskStatuses} from "../api/task-api";
+import {RequestStatusType} from "../state/reducers/app-reducer";
 
 let todolistId1: string;
 let todolistId2: string;
@@ -25,19 +31,6 @@ beforeEach(() => {
     taskId2 = v1();
     taskId3 = v1();
 
-//     startState = {
-//         [todolistId1]: [
-//             {id: taskId1, title: 'CSS', isDone: false},
-//             {id: taskId2, title: 'JS', isDone: true},
-//             {id: taskId3, title: 'React', isDone: false}
-//         ],
-//         [todolistId2]: [
-//             {id: taskId1, title: 'bread', isDone: false},
-//             {id: taskId2, title: 'milk', isDone: true},
-//             {id: taskId3, title: 'tea', isDone: false}
-//         ]
-//     };
-// })
     startState = {
         [todolistId1]: [
             {id: taskId1, title: 'CSS', todoListId: todolistId1, status: TaskStatuses.New, priority: TaskPriorities.Low,
@@ -152,9 +145,18 @@ test('new array should be added when new todolist is added', () => {
 
     expect(keys.length).toBe(3);
     expect(endState[newKey]).toEqual([]);
-})
+});
 
-test('empty arrays should be added when we set Todolists', () => {
+test('deleted tasks when todolist is deleted', () => {
+
+    const endState = tasksReducer(startState, removeTodolistAC(todolistId2));
+
+    const keys = Object.keys(endState);
+
+    expect(keys.length).toBe(1);
+});
+
+test('empty arrays should be added when we set еodolists', () => {
     const endState = tasksReducer({}, setTodolistAC([
         {id: todolistId1, title: 'What to learn', addedDate: '', order: 0},
         {id: todolistId2, title: 'What to buy', addedDate: '', order: 0}
@@ -165,17 +167,39 @@ test('empty arrays should be added when we set Todolists', () => {
     expect(keys.length).toBe(2);
     expect(endState[todolistId1]).toEqual([]);
     expect(endState[todolistId2]).toEqual([]);
-})
+});
 
 test('task should be added for todolist', () => {
-    const endState = tasksReducer({[todolistId1]: [], [todolistId2]: []}, setTasksAC(todolistId1, [
-        {id: taskId1, title: 'CSS', todoListId: todolistId1, status: TaskStatuses.New, priority: TaskPriorities.Low,
-            description: '', order: 0, addedDate: '', startDate: '', deadline: ''},
-        {id: taskId2, title: 'JS', todoListId: todolistId1, status: TaskStatuses.Completed, priority: TaskPriorities.Low,
-            description: '', order: 0, addedDate: '', startDate: '', deadline: ''}
-    ]));
+    const tasks = [
+            {id: taskId1, title: 'CSS', todoListId: todolistId1, status: TaskStatuses.New, priority: TaskPriorities.Low,
+                description: '', order: 0, addedDate: '', startDate: '', deadline: '', entityStatus: 'idle'},
+            {id: taskId2, title: 'JS', todoListId: todolistId1, status: TaskStatuses.Completed, priority: TaskPriorities.Low,
+                description: '', order: 0, addedDate: '', startDate: '', deadline: '', entityStatus: 'idle'},
+            {id: taskId3, title: 'React', todoListId: todolistId1, status: TaskStatuses.New, priority: TaskPriorities.Low,
+                description: '', order: 0, addedDate: '', startDate: '', deadline: '', entityStatus: 'idle'}
+        ];
 
+    const endState = tasksReducer({[todolistId1]: [], [todolistId2]: []}, setTasksAC(todolistId1, tasks));
 
-    expect(endState[todolistId1].length).toBe(2);
-    expect(endState[todolistId2].length).toBe(0);
-})
+    expect(endState[todolistId1].length).toBe(3);
+    expect(endState[todolistId1][0].todoListId).toBe(todolistId1);
+    expect(endState[todolistId1][2].entityStatus).toBe('idle');
+});
+
+test('correct entity status of tasks should be changed', () => {
+    let newEntityStatus: RequestStatusType = 'loading';
+
+    const endState = tasksReducer(startState, changeTaskEntityStatusAC(todolistId2, taskId1, newEntityStatus));
+
+    expect(endState[todolistId2][0].entityStatus).toBe(newEntityStatus);
+    expect(endState[todolistId2][1].entityStatus).toBe('idle');
+});
+
+test('tasks should be completely deleted after logout', () => {
+    const endState = tasksReducer(startState, clearTodolistsDataAC());
+
+    const keys = Object.keys(endState);
+
+    expect(keys.length).toBe(0);
+});
+

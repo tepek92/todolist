@@ -1,5 +1,5 @@
 import {
-    addTaskAC, addTodolistAC, changeTaskEntityStatusAC,
+    addTaskAC, addTodolistAC, changeTaskEntityStatusAC, clearTodolistsDataAC,
     removeTaskAC, removeTodolistAC, setTasksAC, setTodolistAC, updateTaskAC
 } from "../actions";
 import {TaskType} from "../../api/task-api";
@@ -41,6 +41,8 @@ export const tasksReducer = (state: TasksStateType = initialState, action: AllTa
             return {...state,
                 [action.todolistId]:
                     state[action.todolistId].map(ts => ts.id === action.taskId ? {...ts, entityStatus: action.entityStatus}: ts)}
+        case "CLEAR-TODOLISTS-DATA":
+            return {}
         default:
             return state;
     }
@@ -64,4 +66,6 @@ export type AllTaskActionType =
     | ReturnType<typeof setTodolistAC>
     | ReturnType<typeof setTasksAC>
     | ReturnType<typeof updateTaskAC>
-    | ReturnType<typeof changeTaskEntityStatusAC>;
+    | ReturnType<typeof changeTaskEntityStatusAC>
+    | ReturnType<typeof clearTodolistsDataAC>;
+

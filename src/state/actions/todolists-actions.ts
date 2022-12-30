@@ -18,4 +18,6 @@ export const setTodolistAC = (todolists: TodolistType[]) =>
     ({type: 'SET-TODOLISTS', todolists} as const);
 
 export const changeTodolistEntityStatusAC = (todolistId: string, entityStatus: RequestStatusType) =>
-    ({type: 'CHANGE-TODOLIST-ENTITY-STATUS', todolistId, entityStatus} as const)
+    ({type: 'CHANGE-TODOLIST-ENTITY-STATUS', todolistId, entityStatus} as const);
+
+export const clearTodolistsDataAC = () => ({type: 'CLEAR-TODOLISTS-DATA'} as const);

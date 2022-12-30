@@ -1,26 +1,30 @@
 import React, {useCallback, useEffect} from 'react';
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
-import LinearProgress from "@mui/material/LinearProgress";
 import Paper from "@mui/material/Paper";
 import {useAppDispatch, useAppSelector} from "../../state/hooks";
 import {TodolistBllType} from "../../state/reducers/todolists-reducer";
-import {requestStatusSelector, todolistsSelector} from "../../state/selectors";
+import {todolistsSelector} from "../../state/selectors";
 import {addTodolistsTC, fetchTodolistsTC} from '../../state/thunk/todolist-thunk';
 import {Todolist} from "./Todolist/Todolist";
-import {RequestStatusType} from "../../state/reducers/app-reducer";
-import { AddItemForm } from '../common/AddItemForm/AddItemForm';
-import {ErrorSnackbar} from "../common/ErrorSnackbar/ErrorSnackbar";
+import {AddItemForm} from '../common/AddItemForm/AddItemForm';
+import {isLoggedInSelector} from "../../state/selectors";
+import {Navigate} from "react-router-dom";
 
 
 export function Todolists() {
+    // console.log("Todolists all")
+
     const todolists = useAppSelector<TodolistBllType[]>(todolistsSelector);
-    const requestStatus = useAppSelector<RequestStatusType>(requestStatusSelector)
-    const dispatch = useAppDispatch()
+    const isLoggedIn = useAppSelector<boolean>(isLoggedInSelector);
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
-        dispatch(fetchTodolistsTC())
-    },[dispatch] )
+        if (isLoggedIn) {
+            dispatch(fetchTodolistsTC());
+        }
+    }, [dispatch, isLoggedIn]);
+
 
     // Функции изменения тудулистов
     const addTodolist = useCallback((title: string) =>
@@ -36,19 +40,21 @@ export function Todolists() {
         </Grid>
     });
 
-    return (
+    if (!isLoggedIn) {
+        return <Navigate to={'/login'}/>
+    }
+
+return (
     <>
-        <ErrorSnackbar />
-        {requestStatus === 'loading' && <LinearProgress />}
         <Container fixed>
-                <Grid container style={{padding: '20px'}}>
-                    <AddItemForm addItem={addTodolist} />
-                </Grid>
-                <Grid container spacing={5}>
-                    {todolistElements}
-                </Grid>
-            </Container>
-        </>
-    );
+            <Grid container style={{padding: '20px'}}>
+                <AddItemForm addItem={addTodolist}/>
+            </Grid>
+            <Grid container spacing={5}>
+                {todolistElements}
+            </Grid>
+        </Container>
+    </>
+);
 }
 
