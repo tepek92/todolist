@@ -1,19 +1,20 @@
 import {AppDispatch, AppThunk} from "../store";
-import {setAppStatusAC, setIsInitializedAC, setIsLoggedInAC} from "../actions";
 import axios, {AxiosError} from "axios";
 import {authAPI} from "../../api/auth-api";
 import {RESULT_CODE} from "./todolist-thunk";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
+import {setIsLoggedInAC} from "../reducers/auth-reducer";
+import {setAppStatusAC, setIsInitializedAC} from "../reducers/app-reducer";
 
 
 
 export const initializeAppTC = (): AppThunk => async (dispatch: AppDispatch) => {
-    dispatch(setAppStatusAC('loading'));
+    dispatch(setAppStatusAC({status: 'loading'}));
     try {
         const res = await authAPI.me();
         if (res.data.resultCode === RESULT_CODE.SUCCESS) {
-            dispatch(setIsLoggedInAC(true));
-            dispatch(setAppStatusAC('succeeded'));
+            dispatch(setIsLoggedInAC({isLoggedIn: true}));
+            dispatch(setAppStatusAC({status: 'succeeded'}));
         } else {
             handleServerAppError(res.data, dispatch);
         }
@@ -23,6 +24,6 @@ export const initializeAppTC = (): AppThunk => async (dispatch: AppDispatch) => 
             handleServerNetworkError(textError, dispatch);
         }
     } finally {
-        dispatch(setIsInitializedAC(true));
+        dispatch(setIsInitializedAC({isInitialized: true}));
     }
 }

@@ -1,17 +1,19 @@
 import {AppDispatch, AppThunk} from "../store";
-import {setAppStatusAC, setIsLoggedInAC, clearTodolistsDataAC} from "../actions";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 import axios, {AxiosError} from "axios";
 import {authAPI, RequestPayloadType} from "../../api/auth-api";
 import {RESULT_CODE} from "./todolist-thunk";
+import {setIsLoggedInAC} from "../reducers/auth-reducer";
+import {setAppStatusAC} from "../reducers/app-reducer";
+import {clearTodolistsDataAC} from "../reducers/todolists-reducer";
 
 export const loginTC = (formData: RequestPayloadType): AppThunk => async (dispatch: AppDispatch) => {
-    dispatch(setAppStatusAC('loading'));
+    dispatch(setAppStatusAC({status: 'loading'}));
     try {
         const res = await authAPI.login(formData);
         if (res.data.resultCode === RESULT_CODE.SUCCESS) {
-            dispatch(setIsLoggedInAC(true));
-            dispatch(setAppStatusAC('succeeded'));
+            dispatch(setIsLoggedInAC({isLoggedIn: true}));
+            dispatch(setAppStatusAC({status: 'succeeded'}));
         } else {
             handleServerAppError(res.data, dispatch);
         }
@@ -25,13 +27,13 @@ export const loginTC = (formData: RequestPayloadType): AppThunk => async (dispat
 
 
 export const logoutTC = (): AppThunk => async (dispatch: AppDispatch) => {
-    dispatch(setAppStatusAC('loading'));
+    dispatch(setAppStatusAC({status: 'loading'}));
     try {
         const res = await authAPI.logout();
         if (res.data.resultCode === RESULT_CODE.SUCCESS) {
             dispatch(clearTodolistsDataAC());
-            dispatch(setIsLoggedInAC(false));
-            dispatch(setAppStatusAC('succeeded'));
+            dispatch(setIsLoggedInAC({isLoggedIn: false}));
+            dispatch(setAppStatusAC({status: 'succeeded'}));
         } else {
             handleServerAppError(res.data, dispatch);
         }

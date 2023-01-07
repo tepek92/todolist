@@ -1,5 +1,10 @@
-import {appReducer, InitialStateType} from "../state/reducers/app-reducer";
-import {setAppErrorAC, setAppStatusAC, setIsInitializedAC} from "../state/actions/app-actions";
+import {
+    appReducer,
+    InitialStateType,
+    setAppErrorAC,
+    setAppStatusAC,
+    setIsInitializedAC
+} from "../state/reducers/app-reducer";
 
 let startState: InitialStateType;
 
@@ -14,7 +19,7 @@ beforeEach(() => {
 
 
 test('correct error message should be set', () => {
-    const action = setAppErrorAC('testing error');
+    const action = setAppErrorAC({error: 'testing error'});
 
     const endState = appReducer(startState, action);
 
@@ -22,7 +27,7 @@ test('correct error message should be set', () => {
 });
 
 test('correct status should be set', () => {
-    const action = setAppStatusAC('loading');
+    const action = setAppStatusAC({status: 'loading'});
 
     const endState = appReducer(startState, action);
 
@@ -30,7 +35,7 @@ test('correct status should be set', () => {
 });
 
 test('correct status initialized should be set', () => {
-    const action = setIsInitializedAC(true);
+    const action = setIsInitializedAC({isInitialized: true});
 
     const endState = appReducer(startState, action);
 

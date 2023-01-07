@@ -1,52 +1,57 @@
-import {
-    addTaskAC, addTodolistAC, changeTaskEntityStatusAC, clearTodolistsDataAC,
-    removeTaskAC, removeTodolistAC, setTasksAC, setTodolistAC, updateTaskAC
-} from "../actions";
 import {TaskType} from "../../api/task-api";
 import {RequestStatusType} from "./app-reducer";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {UpdateTaskModelType} from "../thunk/tasks-thunk";
+import {addTodolistAC, clearTodolistsDataAC, removeTodolistAC, setTodolistAC} from "./todolists-reducer";
 
 const initialState: TasksStateType = {};
 
-export const tasksReducer = (state: TasksStateType = initialState, action: AllTaskActionType): TasksStateType => {
-    switch (action.type) {
-        case 'REMOVE-TASK':
-            return {
-                ...state,
-                [action.todolistId]: state[action.todolistId].filter(t => t.id !== action.taskId)
-            };
-        case 'ADD-TASK':
-            return {
-                ...state,
-                [action.task.todoListId]: [{...action.task, entityStatus: 'idle'}, ...state[action.task.todoListId]]
-            };
-        case "UPDATE-TASK":
-            return {
-                ...state,
-                [action.todolistId]:
-                    state[action.todolistId].map(t => t.id === action.taskId ? {...t, ...action.model} : t)
-            }
-        case 'REMOVE-TODOLIST':
-            const copyState = {...state};
-            delete copyState[action.todolistId];
-            return copyState;
-        case 'ADD-TODOLIST':
-            return {...state, [action.todolist.id]: []}
-        case "SET-TODOLISTS":
-            let stateCopy = {...state};
-            action.todolists.forEach(td => stateCopy[td.id] = [] as TaskBllType[]);
-            return stateCopy
-        case "SET-TASKS":
-            return {...state, [action.todolistId]: action.tasks.map(ts => ({...ts, entityStatus: 'idle'}))};
-        case "CHANGE-TASK-ENTITY-STATUS":
-            return {...state,
-                [action.todolistId]:
-                    state[action.todolistId].map(ts => ts.id === action.taskId ? {...ts, entityStatus: action.entityStatus}: ts)}
-        case "CLEAR-TODOLISTS-DATA":
-            return {}
-        default:
-            return state;
+export const tasksSlice = createSlice({
+    name: 'tasks',
+    initialState,
+    reducers: {
+        removeTaskAC: (state, action: PayloadAction<{ todolistId: string, taskId: string }>) => {
+            const {todolistId, taskId} = action.payload;
+            state[todolistId] = state[todolistId].filter(t => t.id !== taskId);
+        },
+        addTaskAC: (state, action: PayloadAction<{ task: TaskType }>) => {
+            const todolistId = action.payload.task.todoListId;
+            state[todolistId].unshift({...action.payload.task, entityStatus: 'idle'});
+        },
+        updateTaskAC: (state, action: PayloadAction<{ todolistId: string, taskId: string, model: UpdateTaskModelType }>) => {
+            const {todolistId, taskId, model} = action.payload;
+            state[todolistId] = state[todolistId].map(t => t.id === taskId ? {...t, ...model} : t)
+        },
+        setTasksAC: (state, action: PayloadAction<{ todolistId: string, tasks: TaskType[] }>) => {
+            const {todolistId, tasks} = action.payload;
+            state[todolistId] = tasks.map(ts => ({...ts, entityStatus: 'idle'}));
+        },
+        changeTaskEntityStatusAC: (state, action: PayloadAction<{ todolistId: string, taskId: string, entityStatus: RequestStatusType }>) => {
+            const {todolistId, taskId, entityStatus} = action.payload;
+            state[todolistId] = state[todolistId].map(ts => ts.id === taskId ? {...ts, entityStatus} : ts);
+        },
+    },
+    extraReducers: (builder) => {
+        builder
+            .addCase(removeTodolistAC, (state, action) => {
+                delete state[action.payload.todolistId];
+            })
+            .addCase(addTodolistAC, (state, action) => {
+                state[action.payload.todolist.id] = [];
+            })
+            .addCase(setTodolistAC, (state, action) => {
+                action.payload.todolists.forEach(td => state[td.id] = [] as TaskBllType[]);
+            })
+            .addCase(clearTodolistsDataAC, () => {
+                return {};
+            })
     }
-};
+
+});
+
+export const tasksReducer = tasksSlice.reducer;
+export const {removeTaskAC, addTaskAC, updateTaskAC, setTasksAC, changeTaskEntityStatusAC} = tasksSlice.actions;
+
 
 // types
 
@@ -56,16 +61,11 @@ export type TasksStateType = {
 
 export type TaskBllType = TaskType & {
     entityStatus: RequestStatusType
-}
+};
 
 export type AllTaskActionType =
     | ReturnType<typeof removeTaskAC>
     | ReturnType<typeof addTaskAC>
-    | ReturnType<typeof removeTodolistAC>
-    | ReturnType<typeof addTodolistAC>
-    | ReturnType<typeof setTodolistAC>
     | ReturnType<typeof setTasksAC>
     | ReturnType<typeof updateTaskAC>
-    | ReturnType<typeof changeTaskEntityStatusAC>
-    | ReturnType<typeof clearTodolistsDataAC>;
-
+    | ReturnType<typeof changeTaskEntityStatusAC>;
